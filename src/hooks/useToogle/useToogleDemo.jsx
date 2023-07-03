@@ -1,6 +1,5 @@
 import useToggle from './useToggle';
 
-import { useState } from 'react';
 import { Switch } from '@headlessui/react';
 
 function classNames(...classes) {
@@ -8,25 +7,28 @@ function classNames(...classes) {
 }
 
 export default function UseToggleDemo() {
-  const [enabled, setEnabled] = useState(false);
+  const [on, toggle] = useToggle(false);
 
   return (
-    <Switch
-      checked={enabled}
-      onChange={setEnabled}
-      className={classNames(
-        enabled ? 'bg-indigo-600' : 'bg-gray-200',
-        'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2',
-      )}
-    >
-      <span className='sr-only'>Use setting</span>
-      <span
-        aria-hidden='true'
+    <main className='w-3/5 border my-4 p-3 mx-auto'>
+      <h4>Use Toggle Hook</h4>
+      <Switch
+        checked={on}
+        onChange={toggle}
         className={classNames(
-          enabled ? 'translate-x-5' : 'translate-x-0',
-          'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+          on ? 'bg-indigo-600' : 'bg-gray-200',
+          'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2',
         )}
-      />
-    </Switch>
+      >
+        <span className='sr-only'>Use setting</span>
+        <span
+          aria-hidden='true'
+          className={classNames(
+            on ? 'translate-x-5' : 'translate-x-0',
+            'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+          )}
+        />
+      </Switch>
+    </main>
   );
 }
