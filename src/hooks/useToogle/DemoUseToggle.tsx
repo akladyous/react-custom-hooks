@@ -1,7 +1,7 @@
 import React from 'react';
 import useToggle from './useToggle';
-import { Switch } from '../../components/ui/switch';
 
+import { Switch } from '@/components/ui/switch';
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
