@@ -1,14 +1,22 @@
 import { useCallback, useState } from 'react';
 
-export default function useToggle(initialValue: boolean = false) {
-  const [toggleState, setToggleState] = useState<boolean>(initialValue);
+type ToggleState = boolean;
+type ToggleHandler = (toggleState?: ToggleState) => void;
 
-  const handleToggle = useCallback((checked: boolean): void => {
-    if (typeof checked === 'boolean') {
-      return setToggleState(checked);
+const useToggle = (
+  initialValue: ToggleState = false,
+): [ToggleState, ToggleHandler] => {
+  const [toggleState, setToggleState] = useState<ToggleState>(initialValue);
+
+  const handleToggle = useCallback((newToggleState?: ToggleState) => {
+    if (typeof newToggleState === 'boolean') {
+      setToggleState(newToggleState);
+    } else {
+      setToggleState((prevState) => !prevState);
     }
-    return setToggleState((v) => !v);
   }, []);
 
   return [toggleState, handleToggle];
-}
+};
+
+export default useToggle;
