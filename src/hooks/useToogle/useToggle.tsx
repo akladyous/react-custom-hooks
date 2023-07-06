@@ -1,14 +1,14 @@
 import { useCallback, useState } from 'react';
 
-type ToggleState = boolean;
-type ToggleHandler = (toggleState?: ToggleState) => void;
+interface ToggleData {
+  value: boolean;
+  toggle: (toggleState?: boolean) => void;
+}
 
-const useToggle = (
-  initialValue: ToggleState = false,
-): [ToggleState, ToggleHandler] => {
-  const [toggleState, setToggleState] = useState<ToggleState>(initialValue);
+const useToggle = (initialValue: boolean = false): ToggleData => {
+  const [toggleState, setToggleState] = useState<boolean>(initialValue);
 
-  const handleToggle = useCallback((newToggleState?: ToggleState) => {
+  const toggle = useCallback((newToggleState?: boolean) => {
     if (typeof newToggleState === 'boolean') {
       setToggleState(newToggleState);
     } else {
@@ -16,7 +16,10 @@ const useToggle = (
     }
   }, []);
 
-  return [toggleState, handleToggle];
+  return {
+    value: toggleState,
+    toggle,
+  };
 };
 
 export default useToggle;
