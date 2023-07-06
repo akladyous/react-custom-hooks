@@ -4,7 +4,8 @@ import useToggle from './useToggle';
 import useRenderCount from '../useRenderCount/useRenderCount';
 
 export default function DemoUseToggle() {
-  const [on, toggle] = useToggle(false);
+  const [value, handleToggle] = useToggle(false);
+  const [toggleState, setToggleState] = useState<boolean>(false);
   const count = useRenderCount();
 
   return (
@@ -23,10 +24,10 @@ export default function DemoUseToggle() {
           Airplane mode
         </label>
         <Switch.Root
-          checked={on}
-          onCheckedChange={() => {
-            console.log('onChange : ', on);
-            toggle(!on);
+          checked={toggleState}
+          onCheckedChange={(toggleState) => {
+            console.log('onChange : ', toggleState);
+            setToggleState(!toggleState);
           }}
           className='w-[42px] h-[25px] bg-blackA9 rounded-full relative shadow-[0_2px_10px] shadow-blackA7 focus:shadow-[0_0_0_2px] focus:shadow-black data-[state=checked]:bg-black outline-none cursor-default'
           id='airplane-mode'
