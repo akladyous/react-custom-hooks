@@ -6,7 +6,7 @@ import useRenderCount from '../useRenderCount/useRenderCount';
 export default function DemoUseToggle() {
   const [on, toggle] = useToggle(false);
   const count = useRenderCount();
-  console.log('count : ', count);
+
   return (
     <section>
       <div className='border w-fit p-2 my-4 mx-auto'>

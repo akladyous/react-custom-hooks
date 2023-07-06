@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const useRenderCount = () => {
+export default function useRenderCount() {
   const count = useRef(0);
   const initialRerender = useRef(true);
   useEffect(() => {
@@ -11,6 +11,4 @@ const useRenderCount = () => {
     }
   });
   return count.current;
-};
-
-export default useRenderCount;
+}
