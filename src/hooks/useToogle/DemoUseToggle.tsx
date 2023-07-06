@@ -6,14 +6,14 @@ import useRenderCount from '../useRenderCount/useRenderCount';
 export default function DemoUseToggle() {
   const { value: toggleState, toggle } = useToggle(false);
 
-  const count = useRenderCount();
+  const renderCount = useRenderCount();
 
   return (
     <section>
       <div className='border w-fit p-2 my-4 mx-auto'>
         <p>
           {'re-render count '}
-          {count}
+          {renderCount}
         </p>
       </div>
       <div className='flex items-center'>
