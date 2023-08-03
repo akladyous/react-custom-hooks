@@ -1,6 +1,7 @@
 import DemoUseToggle from './hooks/useToogle/DemoUseToggle';
 import DemouseOnlineStatus from './hooks/useOnlineStatus/DemouseOnlineStatus';
 import DemoUseHover from './hooks/useHover/DemoUseHover';
+import DemoUseLockBody from './hooks/useLockBody/DemoUseLockBody';
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <DemoUseToggle />
       <DemouseOnlineStatus />
       <DemoUseHover />
+      <DemoUseLockBody />
     </main>
   );
 }
