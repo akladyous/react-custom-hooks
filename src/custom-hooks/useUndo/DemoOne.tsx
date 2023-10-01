@@ -2,9 +2,18 @@ import { useState } from 'react';
 import useUndo from './useUndo';
 
 export default function DemoOne() {
-  const { state: counter, canUndo, canRedo, undoAction, redoAction, setState } = useUndo<number>(0);
+  const {
+    state: counter,
+    canUndo,
+    canRedo,
+    undoAction,
+    redoAction,
+    setState,
+    past,
+    present,
+    future,
+  } = useUndo<number>(0);
 
-  // const counter = state as number;
   const increment = () => {
     setState(counter + 1);
   };
@@ -29,9 +38,43 @@ export default function DemoOne() {
         <button className='bg-slate-50 px-3 capitalize' onClick={reset}>
           reset
         </button>
+        <button
+          className='bg-slate-50 px-3 capitalize disabled:opacity-50'
+          onClick={undoAction}
+          disabled={!canUndo}>
+          undo
+        </button>
+        <button
+          className='bg-slate-50 px-3 capitalize disabled:opacity-50'
+          onClick={redoAction}
+          disabled={!canRedo}>
+          redo
+        </button>
         <button className='bg-slate-50 px-3 capitalize' onClick={() => {}}>
           increment by 5
         </button>
+      </div>
+      <div className='flex border justify-between p-2'>
+        <div>
+          <h2>Past States:</h2>
+          <ul>
+            {past.map((value, index) => (
+              <li key={`past-${index}`}>{value}</li>
+            ))}
+          </ul>
+        </div>
+        <div>
+          <h2>Present State:</h2>
+          <p>{present}</p>
+        </div>
+        <div>
+          <h2>Future States:</h2>
+          <ul>
+            {future.map((value, index) => (
+              <li key={`future-${index}`}>{value}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </main>
   );

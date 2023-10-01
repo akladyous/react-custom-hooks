@@ -4,6 +4,7 @@ enum ActionType {
   UNDO = 'UNDO',
   REDO = 'REDO',
   SET = 'SET',
+  RESET = 'RESET',
 }
 
 interface UndoAction {
@@ -19,45 +20,47 @@ interface SetAction<T> {
   present: T;
 }
 
-type Action<T> = UndoAction | RedoAction | SetAction<T>;
+interface ResetAction<T> {
+  type: ActionType.RESET;
+  initialState: T;
+}
 
-// Define state interface
+type Action<T> = UndoAction | RedoAction | SetAction<T> | ResetAction<T>;
+
 interface State<T> {
   past: T[];
   present: T;
   future: T[];
 }
 
-// Define initial state
 const initialState = {
   past: [],
-  present: null as any, // Replace 'any' with your initial state type
+  present: null as any,
   future: [],
 };
 
-// Define the reducer function
 const undoReducer = <T,>(state: State<T>, action: Action<T>): State<T> => {
   const { past, present, future } = state;
 
   switch (action.type) {
     case ActionType.UNDO: {
       if (past.length === 0) {
-        return state; // No past states to undo to; return the current state.
+        return state;
       }
 
-      const previous = past[past.length - 1];
+      const previousState = past[past.length - 1];
       const newPast = past.slice(0, past.length - 1);
 
       return {
         past: newPast,
-        present: previous,
+        present: previousState,
         future: [present, ...future],
       };
     }
 
     case ActionType.REDO: {
       if (future.length === 0) {
-        return state; // No future states to redo to; return the current state.
+        return state;
       }
 
       const next = future[0];
@@ -74,12 +77,20 @@ const undoReducer = <T,>(state: State<T>, action: Action<T>): State<T> => {
       const { present: newPresent } = action;
 
       if (newPresent === present) {
-        return state; // No change in state; return the current state.
+        return state;
       }
 
       return {
         past: [...past, present],
         present: newPresent,
+        future: [],
+      };
+    }
+
+    case ActionType.RESET: {
+      return {
+        past: [],
+        present: action.initialState,
         future: [],
       };
     }
@@ -114,14 +125,23 @@ function useUndo<T>(initialPresent: T) {
     dispatch({ type: ActionType.SET, present: newPresent });
   }, []);
 
+  const resetState = useCallback((initialState: T) => {
+    dispatch({ type: ActionType.RESET, initialState });
+  }, []);
+
   return {
     state: state.present as T,
+
+    past: state.past,
+    present: state.present,
+    future: state.future,
+
     canUndo,
     canRedo,
     undoAction,
     redoAction,
     setState,
+    resetState,
   };
 }
-
 export default useUndo;
