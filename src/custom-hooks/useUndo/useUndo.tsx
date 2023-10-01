@@ -1,23 +1,21 @@
 import { useReducer, useCallback } from 'react';
 
-// Define action types
 enum ActionType {
-  Undo = 'UNDO',
-  Redo = 'REDO',
-  Set = 'SET',
+  UNDO = 'UNDO',
+  REDO = 'REDO',
+  SET = 'SET',
 }
 
-// Define action interfaces
 interface UndoAction {
-  type: ActionType.Undo;
+  type: ActionType.UNDO;
 }
 
 interface RedoAction {
-  type: ActionType.Redo;
+  type: ActionType.REDO;
 }
 
 interface SetAction<T> {
-  type: ActionType.Set;
+  type: ActionType.SET;
   present: T;
 }
 
@@ -42,7 +40,7 @@ const undoReducer = <T,>(state: State<T>, action: Action<T>): State<T> => {
   const { past, present, future } = state;
 
   switch (action.type) {
-    case ActionType.Undo: {
+    case ActionType.UNDO: {
       if (past.length === 0) {
         return state; // No past states to undo to; return the current state.
       }
@@ -57,7 +55,7 @@ const undoReducer = <T,>(state: State<T>, action: Action<T>): State<T> => {
       };
     }
 
-    case ActionType.Redo: {
+    case ActionType.REDO: {
       if (future.length === 0) {
         return state; // No future states to redo to; return the current state.
       }
@@ -72,7 +70,7 @@ const undoReducer = <T,>(state: State<T>, action: Action<T>): State<T> => {
       };
     }
 
-    case ActionType.Set: {
+    case ActionType.SET: {
       const { present: newPresent } = action;
 
       if (newPresent === present) {
@@ -102,18 +100,18 @@ function useUndo<T>(initialPresent: T) {
 
   const undoAction = useCallback(() => {
     if (canUndo) {
-      dispatch({ type: ActionType.Undo });
+      dispatch({ type: ActionType.UNDO });
     }
   }, [canUndo]);
 
   const redoAction = useCallback(() => {
     if (canRedo) {
-      dispatch({ type: ActionType.Redo });
+      dispatch({ type: ActionType.REDO });
     }
   }, [canRedo]);
 
   const setState = useCallback((newPresent: T) => {
-    dispatch({ type: ActionType.Set, present: newPresent });
+    dispatch({ type: ActionType.SET, present: newPresent });
   }, []);
 
   return {
