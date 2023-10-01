@@ -101,19 +101,19 @@ function useUndo<T>(initialPresent: T) {
   const canUndo = state.past.length > 0;
   const canRedo = state.future.length > 0;
 
-  const undo = useCallback(() => {
+  const undoAction = useCallback(() => {
     if (canUndo) {
       dispatch({ type: ActionType.Undo });
     }
   }, [canUndo]);
 
-  const redo = useCallback(() => {
+  const redoAction = useCallback(() => {
     if (canRedo) {
       dispatch({ type: ActionType.Redo });
     }
   }, [canRedo]);
 
-  const set = useCallback((newPresent: T) => {
+  const setState = useCallback((newPresent: T) => {
     dispatch({ type: ActionType.Set, present: newPresent });
   }, []);
 
@@ -121,9 +121,9 @@ function useUndo<T>(initialPresent: T) {
     state: state.present,
     canUndo,
     canRedo,
-    undo,
-    redo,
-    set,
+    undoAction,
+    redoAction,
+    setState,
   };
 }
 
