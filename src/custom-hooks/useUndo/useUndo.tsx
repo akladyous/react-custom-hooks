@@ -48,8 +48,7 @@ const undoReducer = <T,>(state: State<T>, action: Action<T>): State<T> => {
         return state;
       }
 
-      const previousState = past[past.length - 1];
-      const newPast = past.slice(0, past.length - 1);
+      const [previousState, ...newPast] = past;
 
       return {
         past: newPast,
