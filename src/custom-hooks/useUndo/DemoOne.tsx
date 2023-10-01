@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import useUndo from './useUndo';
 
 export default function DemoOne() {
@@ -9,33 +8,36 @@ export default function DemoOne() {
     undoAction,
     redoAction,
     setState,
-    past,
-    present,
-    future,
+    resetState,
+    past: pastState,
+    future: futureState,
   } = useUndo<number>(0);
 
-  const increment = () => {
-    setState(counter + 1);
-  };
-  const decrement = () => {
-    setState(counter - 1);
-  };
-  const reset = () => {
-    setState(0);
-  };
   return (
     <main className='border p-2 my-3 w-2/3 mx-auto' id='counter'>
       <div className='flex'>
-        <button className='border rounded-md bg-slate-100 px-5 mx-auto' onClick={increment}>
+        <button
+          className='border rounded-md bg-slate-100 px-5 mx-auto'
+          onClick={() => {
+            setState(counter + 1);
+          }}>
           increment
         </button>
         <p className='text-center'>{counter}</p>
-        <button className='border rounded-md bg-slate-100 px-5 mx-auto' onClick={decrement}>
+        <button
+          className='border rounded-md bg-slate-100 px-5 mx-auto'
+          onClick={() => {
+            setState(counter - 1);
+          }}>
           decrement
         </button>
       </div>
       <div className=' w-full mx-auto text-center py-3'>
-        <button className='bg-slate-50 px-3 capitalize' onClick={reset}>
+        <button
+          className='bg-slate-50 px-3 capitalize'
+          onClick={() => {
+            resetState();
+          }}>
           reset
         </button>
         <button
@@ -58,19 +60,19 @@ export default function DemoOne() {
         <div>
           <h2>Past States:</h2>
           <ul>
-            {past.map((value, index) => (
+            {pastState.map((value: number, index) => (
               <li key={`past-${index}`}>{value}</li>
             ))}
           </ul>
         </div>
         <div>
           <h2>Present State:</h2>
-          <p>{present}</p>
+          <p>{counter}</p>
         </div>
         <div>
           <h2>Future States:</h2>
           <ul>
-            {future.map((value, index) => (
+            {futureState.map((value: number, index) => (
               <li key={`future-${index}`}>{value}</li>
             ))}
           </ul>
