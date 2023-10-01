@@ -91,7 +91,6 @@ const undoReducer = <T,>(state: State<T>, action: Action<T>): State<T> => {
   }
 };
 
-// Define the useUndo custom hook
 function useUndo<T>(initialPresent: T) {
   const [state, dispatch] = useReducer(undoReducer, {
     ...initialState,
@@ -118,7 +117,7 @@ function useUndo<T>(initialPresent: T) {
   }, []);
 
   return {
-    state: state.present,
+    state: state.present as T,
     canUndo,
     canRedo,
     undoAction,

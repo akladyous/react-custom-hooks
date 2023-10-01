@@ -4,6 +4,7 @@ import useUndo from './useUndo';
 export default function DemoOne() {
   const { state: counter, canUndo, canRedo, undoAction, redoAction, setState } = useUndo<number>(0);
 
+  // const counter = state as number;
   const increment = () => {
     setState(counter + 1);
   };
