@@ -42,17 +42,7 @@ const initialState = {
   present: null,
   future: [],
 };
-
-type Prettify<T> = {
-  [K in keyof T]: T[K];
-} & {};
-type ActionsList = 'UNDO' | 'REDO' | 'SET' | 'RESET';
-
-type ACTION<T> =
-  | { type: 'UNDO' }
-  | { type: 'REDO' }
-  | { type: 'SET'; present: T }
-  | { type: 'RESET'; initialState: T };
+type ACTION = {};
 
 const undoReducer = <T,>(state: State<T>, action: Action<T>): State<T> => {
   const { past, present, future } = state;
